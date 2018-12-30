@@ -44,4 +44,4 @@ print('Here we go====')
 kafka_producer = connect_kafka_producer()
 while True:
   publish_message(kafka_producer, topic, key, value)
-  time.sleep(10)
+  time.sleep(60)
