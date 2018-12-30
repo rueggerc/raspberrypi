@@ -36,7 +36,7 @@ for x in range(numParms):
     print("Next Parm=" + sys.argv[x])
 
 host = socket.gethostname()
-topic = "junk"
+topic = sys.argv[1]
 key = host
 value = "Hello From Python on " + host   
 
