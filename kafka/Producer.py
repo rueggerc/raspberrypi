@@ -1,12 +1,22 @@
 
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaProducer
+from datetime import datetime
+import random
 import time
 import socket
 import sys
 
 
+def getMessage():
+    host = socket.gethostname()
+    temp = 100*random.uniform(0.0,1.0)
+    millis = int(round(time.time() * 1000))
+    timestamp=datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    msg = '{},{:#5.2f},{},{}'.format(host,temp,millis,timestamp)
+    return msg
+
 def publish_message(producer_instance, topic_name, key, value):
-    print ('publish message=' + value)
+    print ('message=' + value)
     try:
         key_bytes = bytes(key, encoding='utf-8')
         value_bytes = bytes(value, encoding='utf-8')
@@ -29,19 +39,12 @@ def connect_kafka_producer():
         print(str(ex))
     finally:
         return _producer
+    
 
-
-numParms = len(sys.argv)
-for x in range(numParms):
-    print("Next Parm=" + sys.argv[x])
-
-host = socket.gethostname()
+key = socket.gethostname()
 topic = sys.argv[1]
-key = host
-value = "Hello From Python on " + host   
-
-print('Here we go====')
 kafka_producer = connect_kafka_producer()
 while True:
-  publish_message(kafka_producer, topic, key, value)
-  time.sleep(60)
+    value = getMessage()
+    publish_message(kafka_producer, topic, key, value)
+    time.sleep(60)
