@@ -1,0 +1,3 @@
+
+# Instal
+pip install kafka-python

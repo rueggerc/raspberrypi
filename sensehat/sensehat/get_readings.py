@@ -3,13 +3,11 @@ import datetime
 import time
 import socket
 
-
-def getData():
-
+def getReadings():
 	now = datetime.datetime.now()
 	id = (now.hour * 10000) + (now.minute * 100) + now.second
  	datakey = str(now.year) + "_" + str(now.month) + "_" + str(now.day) + "_" + str(id)
-        sense = SenseHat()
+    sense = SenseHat()
         t = sense.get_temperature()
         p = sense.get_pressure()
         h = sense.get_humidity()
@@ -23,4 +21,4 @@ def getData():
         print('Humidity={0:0.2f} %rH'.format(h))
         sense.show_message("Get Data")
 
-getData()
+getReadings()
