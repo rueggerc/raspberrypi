@@ -8,20 +8,20 @@ import time
 import socket
 import sys
 
-def getTemperature():
+def getReadings():
     timestamp = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
     h,t = dht.read_retry(dht.DHT22,20)
     t = (t * 9/5) + 32
     print('{0} {1:4.2f} {2:4.2f}'.format(timestamp,t,h))
-    return t; 
+    return (t, h)
 
 def getMessage():
     host = socket.gethostname()
     #temp = 100*random.uniform(0.0,1.0)
-    temp = getTemperature()
+    temperature, humidity = getReadings()
     millis = int(round(time.time() * 1000))
     timestamp=datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-    msg = '{},{:#5.2f},{},{}'.format(host,temp,millis,timestamp)
+    msg = '{},{:#5.2f},{},{}'.format(host,temperature,humidity,millis,timestamp)
     return msg
 
 def publish_message(producer_instance, topic_name, key, value):
