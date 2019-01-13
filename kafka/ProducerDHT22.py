@@ -21,7 +21,7 @@ def getMessage():
     temperature, humidity = getReadings()
     millis = int(round(time.time() * 1000))
     timestamp=datetime.now().strftime('%Y/%m/%d %H:%M:%S')
-    msg = '{},{:#5.2f},{},{}'.format(host,temperature,humidity,millis,timestamp)
+    msg = '{},{:#5.2f},{:#5.2f},{}'.format(host,temperature,humidity,millis,timestamp)
     return msg
 
 def publish_message(producer_instance, topic_name, key, value):
@@ -40,8 +40,8 @@ def publish_message(producer_instance, topic_name, key, value):
 def connect_kafka_producer():
     _producer = None
     try:
-        # brokers = "captain:9092,godzilla:9092,oscar:9092,darwin:9092"
-        brokers = "HP1:9092,godzilla:9092,oscar:9092,darwin:9092"
+        #brokers = "HP1:9092,godzilla:9092,oscar:9092,darwin:9092"
+        brokers = "HP1:9092"
         _producer = KafkaProducer(bootstrap_servers=brokers, api_version=(0, 10))
         print("Got Producer")
     except Exception as ex:
