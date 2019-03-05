@@ -1,3 +1,57 @@
 
-# Instal
+
+# Kafka
+# 
 pip install kafka-python
+
+
+
+################
+DHT22
+################
+
+Power Pins
+Pin1 3.3v
+Pin2 5v
+Pin4 5v
+Pin17 3.3v
+
+
+# See GPIO setup
+pinout
+
+#Breakout Board Connections
++  	Pin40
+-  	Pin39
+output: Pin38
+
+# Use Broadcom Pin assignments:
+GPIO.setmode(GPIO.BCM)
+
+Pin40 is being used as power connection
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(40,GPIO.OUT)
+GPIO.output(40,GPIO.HIGH)
+
+sudo apt-get update
+sudo apt-get install build-essential python-dev
+
+# Install Adafruit Library
+cd code
+git clone https://github.com/adafruit/Adafruit_Python_DHT
+cd code/Adafruit_Python_DHT-master
+sudo python setup.py install
+
+# Imaging
+sudo apt-get install python-imaging
+sudo apt-get install python-imaging-tk
+
+#PCM Pulse Code Modulation
+#Digitally Represent sampled analog signals
+#Used for Digital Audio
+PCM Connections
+Pin12	CLK
+Pin38	DIN
+Pin35	FS
+Pin40	DOUT
+

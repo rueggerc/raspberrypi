@@ -16,7 +16,7 @@ def getMessage():
     return msg
 
 def publish_message(producer_instance, topic_name, key, value):
-    print ('message=' + value)
+    #print ('message=' + value)
     try:
         key_bytes = bytes(key, encoding='utf-8')
         value_bytes = bytes(value, encoding='utf-8')
@@ -31,8 +31,9 @@ def publish_message(producer_instance, topic_name, key, value):
 def connect_kafka_producer():
     _producer = None
     try:
-        #brokers = "captain:9092,godzilla:9092,oscar:9092,darwin:9092"
-        brokers = "sunny:9092"
+        print("GET PRODUCER BEGIN")
+        brokers = "localhost:9092"
+        #brokers = "sunny:9092"
         _producer = KafkaProducer(bootstrap_servers=brokers, api_version=(0, 10))
         print("Got Producer")
     except Exception as ex:
@@ -48,4 +49,5 @@ kafka_producer = connect_kafka_producer()
 while True:
     value = getMessage()
     publish_message(kafka_producer, topic, key, value)
-    time.sleep(60)
+    print("Message Sent={}".format(value))
+    time.sleep(15)
