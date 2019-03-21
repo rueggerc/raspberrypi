@@ -1,6 +1,6 @@
 import paho.mqtt.publish as publish
  
-MQTT_SERVER = "192.168.1.5"
-MQTT_PATH = "test_channel"
+MQTT_SERVER = "captain"
+MQTT_PATH = "/home/chris/sensor1"
  
-publish.single(MQTT_PATH, "Hello World!", hostname=MQTT_SERVER)
+publish.single(MQTT_PATH, "Temp=42.88", hostname=MQTT_SERVER)

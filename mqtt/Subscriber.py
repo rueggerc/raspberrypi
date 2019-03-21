@@ -1,8 +1,8 @@
 
 import paho.mqtt.client as mqtt
  
-MQTT_SERVER = "localhost"
-MQTT_PATH = "test_channel"
+MQTT_SERVER = "captain"
+MQTT_PATH = "/home/chris/sensor1"
  
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -13,8 +13,14 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(MQTT_PATH)
  
 # The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+def on_message(client, userdata, message):
+    
+    print("message received=",str(message.payload.decode("utf-8")))
+    payload = str(message.payload.decode("utf-8"))
+    print("The message is {}".format(payload))
+    
+    # print("Got Message:" + str(msg.payload))
+    # print(msg.topic+" "+str(msg.payload))
     # more callbacks, etc
  
 client = mqtt.Client()
