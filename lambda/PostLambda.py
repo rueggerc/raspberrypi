@@ -19,7 +19,7 @@ def postToLambda():
     }
 
     try:
-        lambdaURL = f'https://o6vomvulhk.execute-api.us-east-1.amazonaws.com/{stage}/sensors/{hostname}/collect'
+        lambdaURL = 'foobar'
         headers = {'content-type': 'application/json'}
         response = requests.post(lambdaURL,json=payload,headers=headers)
         print(f'StatusCode={response.status_code}')
