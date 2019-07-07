@@ -7,6 +7,7 @@ import random
 import time
 import socket
 import sys
+import requests
 
 def getReadings():
     timestamp = datetime.now().strftime('%Y/%m/%d %H:%M:%S')
@@ -50,6 +51,37 @@ def connect_kafka_producer():
     finally:
         return _producer
     
+def postToLambda(baseURL):
+    print('Post To Lambda BEGIN');
+    hostname = socket.gethostname()
+    stage = 'dev'
+    timestamp = int(round(time.time() * 1000))
+    notes = "Hello from Raspberry PI!"
+    temperature, humidity = getReadings()
+    payload = {
+        "sensorID": hostname,
+        "notes": notes,
+        "temperature": temperature,
+        "humidity": humidity,
+        "timestamp": timestamp
+    }
+
+    try:
+        #lambdaURL = f'{baseURL}/{stage}/sensors/{hostname}/collect'
+        lambdaURL = '{}/{}/sensors/{}/collect'.format(baseURL,stage,hostname)
+        print("lambdaURL=" + lambdaURL)
+        #lambdaURL = '{},{:#5.2f},{:#5.2f},{}'.format(host,temperature,humidity,millis,timestamp)
+        headers = {'content-type': 'application/json'}
+        response = requests.post(lambdaURL,json=payload,headers=headers)
+        #print(f'StatusCode={response.status_code}')
+        print('StatusCode={}'.format(response.status_code))
+        print('ResponseText={}'.format(response.text))
+        #print(f'ResponseText={response.text}')
+    except Exception as ex:
+        print('Exception in POSTing To Lambda:{}.format(ex)')
+        
+    print('Post To Lambda END');
+    
 def main():
     
     GPIO.setwarnings(False)
@@ -59,10 +91,12 @@ def main():
     
     key = socket.gethostname()
     topic = sys.argv[1]
+    baseURL = sys.argv[2]
     kafka_producer = connect_kafka_producer()
     while True:
         value = getMessage()
         publish_message(kafka_producer, topic, key, value)
+        postToLambda(baseURL)
         time.sleep(60)
     
 if __name__ == '__main__':
