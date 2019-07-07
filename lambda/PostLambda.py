@@ -4,16 +4,16 @@ import socket
 import time
 import sys
 
-def postToLambda(baseURL):
+def postToLambda(baseURL,notes,temperature,humidity):
     print('Post To Lambda BEGIN');
     hostname = socket.gethostname()
     stage = 'dev'
     timestamp = int(round(time.time() * 1000))
     payload = {
         "sensorID": hostname,
-        "notes": "From Python Program!",
-        "temperature": 76.11,
-        "humidity": 91.33,
+        "notes": notes,
+        "temperature": temperature,
+        "humidity": humidity,
         "timestamp": timestamp
     }
 
@@ -35,10 +35,12 @@ def postToLambda(baseURL):
     
         
 def main():
-     print(f'Main Begin')
-     baseURL = sys.argv[1]
-
-     postToLambda(baseURL)
+    print('Main Begin')
+    baseURL = sys.argv[1]
+    notes = "Raspberry PI"
+    temperature=72.11
+    humidity=91.66
+    postToLambda(baseURL,notes,temperature,humidity)
     
 if __name__ == '__main__':
     main()
