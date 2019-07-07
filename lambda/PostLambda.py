@@ -2,11 +2,10 @@
 import requests
 import socket
 import time
+import sys
 
-
-def postToLambda():
+def postToLambda(baseURL):
     print(f'Post To Lambda BEGIN');
-    
     hostname = socket.gethostname()
     stage = 'dev'
     timestamp = int(round(time.time() * 1000))
@@ -19,7 +18,7 @@ def postToLambda():
     }
 
     try:
-        lambdaURL = 'foobar'
+        lambdaURL = f'{baseURL}/{stage}/sensors/{hostname}/collect'
         headers = {'content-type': 'application/json'}
         response = requests.post(lambdaURL,json=payload,headers=headers)
         print(f'StatusCode={response.status_code}')
@@ -32,7 +31,9 @@ def postToLambda():
         
 def main():
      print(f'Main Begin')
-     postToLambda()
+     baseURL = sys.argv[1]
+
+     postToLambda(baseURL)
     
 if __name__ == '__main__':
     main()
